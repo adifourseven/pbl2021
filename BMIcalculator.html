@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <title></title>
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Quicksand:400,700" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="cal.css">
+</head>
+<body>
+  <div class="panels">
+    <div class="panel panel1">
+      <p>Hey</p>
+      <p>Let's</p>
+      <p>Eat</p>
+    </div>
+    <div class="panel panel2">
+      <p>Give</p>
+      <p>Take</p>
+      <p>Receive</p>
+    </div>
+    <div class="panel panel3">
+      <p>Experience</p>
+      <p>It</p>
+      <p>Today</p>
+    </div>
+    <div class="panel panel4">
+      <p>Give</p>
+      <p>All</p>
+      <p>You can</p>
+    </div>
+    <div class="panel panel5">
+      <p>Life</p>
+      <p>In</p>
+      <p>Motion</p>
+    </div>
+  </div>
+  <div class="info">
+    <h5>WHY IS HEALTHY WEIGHT IMPORTANT ?</h5>
+    <h6>Reaching and maintaining a healthy weight is important for overall health 
+    and can help you prevent and control many diseases and conditions. If you are 
+    overweight or obese, you are at higher risk of developing serious health problems,
+    including heart disease, high blood pressure, type 2 diabetes, gallstones, breathing
+    problems, and certain cancers. That is why maintaining a healthy weight is so important:
+    It helps you lower your risk for developing these problems, helps you feel good about 
+    yourself, and gives you more energy to enjoy life. </h6>
+    <h5>WHAT IS OVERWEIGHT AND OBESITY?</h5>
+    <h6>Overweight is having extra body weight from muscle, bone, fat, and/or water. Obesity is having a high amount of extra body fat. Body mass index (BMI) is a useful measure of overweight and obesity. The information on this Web site will provide you with information about BMI (including limitations of this measure) and how to reach and stay at a healthy weight. Talk to your health care provider if you are concerned about your BMI.</h6>
+    <h5>What Factors Contribute To a Healthy Weight?</h5>
+    <h6>Many factors can contribute to a person’s weight. These factors include environment, family history and genetics, metabolism (the way your body changes food and oxygen into energy), and behavior or habits.</h6>
+  </div>
+  <h3><b>B</b>ody <b>M</b>ass <b>I</b>ndex Calculator</h3>
+<form class="form" id="form" onsubmit="return validateForm()">
+<div class="row-one">
+  <input type="text" class="text-input" id="age" autocomplete="off" required/><p class="text">Age</p>
+  <label class="container">
+  <input type="radio" name="radio" id="f"><p class="text">Female</p>
+    <span class="checkmark"></span>
+  </label>
+  <label class="container">
+  <input type="radio" name="radio" id="m"><p class="text">Male</p>
+    <span class="checkmark"></span>
+  </label>
+  </div>
+
+<div class="row-two">
+  <input type="text" class="text-input" id="height" autocomplete="off" required><p class="text">Height (cm)</p>
+  <input type="text" class="text-input" id="weight" autocomplete="off" required><p class="text">Weight (kg)</p>
+</div>
+<button type="button" id="submit">Submit</button>
+</form>
+<script type="text/javascript">
+  const panels = document.querySelectorAll(".panel");
+
+function panelOpen() {
+  this.classList.toggle('open');
+}
+
+function toggleActive(e) {
+  console.log(e.propertyName)
+  if (e.propertyName.includes('flex')) {
+    this.classList.toggle('open-active');
+  }
+}
+
+panels.forEach(panel => panel.addEventListener('click', panelOpen));
+
+panels.forEach(panel => panel.addEventListener('transitionend', toggleActive));
+  var age = document.getElementById("age");
+var height = document.getElementById("height");
+var weight = document.getElementById("weight");
+var male = document.getElementById("m");
+var female = document.getElementById("f");
+var form = document.getElementById("form");
+
+function validateForm(){
+  if(age.value=='' || height.value=='' || weight.value=='' || (male.checked==false && female.checked==false)){
+    alert("All fields are required!");
+    document.getElementById("submit").removeEventListener("click", countBmi);
+  }else{
+    countBmi();
+  }
+}
+document.getElementById("submit").addEventListener("click", validateForm);
+
+function countBmi(){
+  var p = [age.value, height.value, weight.value];
+  if(male.checked){
+    p.push("male");
+  }else if(female.checked){
+    p.push("female");
+  }
+  form.reset();
+  var bmi = Number(p[2])/(Number(p[1])/100*Number(p[1])/100);
+      
+  var result = '';
+  if(bmi<18.5){
+    result = 'Underweight';
+     }else if(18.5<=bmi&&bmi<=24.9){
+    result = 'Healthy';
+     }else if(25<=bmi&&bmi<=29.9){
+    result = 'Overweight';
+     }else if(30<=bmi&&bmi<=34.9){
+    result = 'Obese';
+     }else if(35<=bmi){
+    result = 'Extremely obese';
+     }
+  
+  var h1 = document.createElement("h1");
+  var h2 = document.createElement("h2");
+
+  var t = document.createTextNode(result);
+  var b = document.createTextNode('BMI: ');
+  var r = document.createTextNode(parseFloat(bmi).toFixed(2));
+  
+  h1.appendChild(t);
+  h2.appendChild(b);
+  h2.appendChild(r);
+  
+  document.body.appendChild(h1);
+  document.body.appendChild(h2);
+  document.getElementById("submit").removeEventListener("click", countBmi);
+  document.getElementById("submit").removeEventListener("click", validateForm);
+}
+document.getElementById("submit").addEventListener("click", countBmi);
+</script>
+</body>
+</html>
